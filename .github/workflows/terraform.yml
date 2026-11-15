@@ -42,3 +42,5 @@ jobs:
           directory: .
           framework: terraform
           soft_fail: false
+
+# CI trigger verification
