@@ -6,10 +6,11 @@ resource "random_id" "storage_suffix" {
 resource "azurerm_storage_account" "main" {
   name = "streprise${var.environment}${random_id.storage_suffix.hex}"
 
-  resource_group_name      = var.resource_group_name
-  location                 = var.location
+  resource_group_name = var.resource_group_name
+  location            = var.location
+
   account_tier             = "Standard"
-  account_replication_type = "LRS"
+  account_replication_type = "GRS"
   account_kind             = "StorageV2"
 
   min_tls_version                   = "TLS1_2"
@@ -33,6 +34,18 @@ resource "azurerm_storage_account" "main" {
   }
 
   tags = var.tags
+}
+
+resource "azurerm_storage_account_queue_properties" "main" {
+  storage_account_id = azurerm_storage_account.main.id
+
+  logging {
+    delete                = true
+    read                  = true
+    write                 = true
+    version               = "1.0"
+    retention_policy_days = 7
+  }
 }
 
 resource "azurerm_private_endpoint" "blob" {

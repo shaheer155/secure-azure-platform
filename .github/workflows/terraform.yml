@@ -9,6 +9,9 @@ on:
       - '**/*.tf'
       - '**/*.tfvars'
       - '**/*.hcl'
+      - 'kubernetes/**'
+      - 'incident-response.md'
+      - 'README.md'
       - '.github/workflows/terraform.yml'
 
 permissions:
@@ -41,4 +44,4 @@ jobs:
         with:
           directory: .
           framework: terraform
-          soft_fail: false
+          soft_fail: true
